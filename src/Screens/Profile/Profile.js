@@ -29,13 +29,13 @@ const Profile = props => {
           height={height * 0.2}
           resizeMode="contain"
         />
-        <SText size="22px" weight="700" color="#ffffff">
-          Oche Onoja
+        <SText size="22px" weight="700" color="#444444">
+          Joe Jackson
         </SText>
       </Content>
       <Content flex={0.3} width="90%">
         <Item style={{marginBottom: 15}}>
-          <PersonIcon color="#37bf86" size={30} />
+          <PersonIcon color={colors.primary} size={30} />
           <Input
             floatingLabel
             placeholder="Email/Phone"
@@ -43,17 +43,21 @@ const Profile = props => {
           />
         </Item>
         <Item>
-          <PersonIcon color="#37bf86" size={30} />
+          <PersonIcon color={colors.primary} size={30} />
           <Input floatingLabel placeholder="Phone" value="08034846400" />
         </Item>
       </Content>
       <Content flex={0.25} justify="space-between">
-        <StyledButton bg="#37c087" width="90%">
+        <StyledButton curved bg={colors.primary} width="90%">
           <SText size="20px" color="#ffffff">
             Update
           </SText>
         </StyledButton>
-        <StyledButton bg="#37c087" width="90%">
+        <StyledButton
+          curved
+          bg={colors.primary}
+          width="90%"
+          onPress={() => navigation.navigate('ChangePassword')}>
           <SText size="20px" color="#ffffff">
             Change Password
           </SText>

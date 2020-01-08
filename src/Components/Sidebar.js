@@ -5,7 +5,17 @@ import {NavigationActions} from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {onSignOut} from '../_services';
-import {BlockView, SText, LogoImg} from './styledComponents';
+import {BlockView, SText, LogoImg, colors, Content} from './styledComponents';
+import {
+  DashboardIcon,
+  ContributionIcon,
+  RequestIcon,
+  EnquiryIcon,
+  PersonIcon,
+  CalculatorIcon,
+  LocationIcon,
+  LogoutIcon,
+} from './icons';
 
 const avatar = require('../assets/img/avatar.png');
 
@@ -34,7 +44,7 @@ const Sidebar = props => {
     props.navigation.dispatch(navigateAction);
   };
   return (
-    <View style={{backgroundColor: '#37bf86', height: '100%'}}>
+    <View style={{backgroundColor: colors.primary, height: '100%'}}>
       <View
         style={{
           flexDirection: 'row',
@@ -57,7 +67,7 @@ const Sidebar = props => {
           />
         </View>
         <BlockView hmargin={width / 30}>
-          <SText color="#333333" size="27px" weight="600">
+          <SText color="#ffffff" size="27px" weight="600">
             Oche Onoja
           </SText>
         </BlockView>
@@ -65,65 +75,114 @@ const Sidebar = props => {
       <ScrollView>
         <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <SText color="#ffffff" size="22px" uppercase fontWeight="400">
-              Dashboard
-            </SText>
+            <Content horizontal justify="flex-start">
+              <DashboardIcon
+                size="30px"
+                color="#ffffff"
+                style={{marginRight: 10}}
+              />
+              <SText color="#ffffff" size="22px" fontWeight="400">
+                Dashboard
+              </SText>
+            </Content>
           </BlockView>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Contribution')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <SText color="#ffffff" size="22px" uppercase fontWeight="400">
-              Contributions
-            </SText>
+            <Content horizontal justify="flex-start">
+              <ContributionIcon
+                size="30px"
+                color="#ffffff"
+                style={{marginRight: 10}}
+              />
+              <SText color="#ffffff" size="22px" fontWeight="400">
+                Contributions
+              </SText>
+            </Content>
           </BlockView>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Requests')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <SText color="#ffffff" size="22px" uppercase fontWeight="400">
-              Requests
-            </SText>
+            <Content horizontal justify="flex-start">
+              <RequestIcon
+                size="30px"
+                color="#ffffff"
+                style={{marginRight: 10}}
+              />
+              <SText color="#ffffff" size="22px" fontWeight="400">
+                Requests
+              </SText>
+            </Content>
           </BlockView>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Enquiry')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <SText color="#ffffff" size="22px" uppercase fontWeight="400">
-              Enquiry
-            </SText>
+            <Content horizontal justify="flex-start">
+              <EnquiryIcon
+                size="30px"
+                color="#ffffff"
+                style={{marginRight: 10}}
+              />
+              <SText color="#ffffff" size="22px" fontWeight="400">
+                Enquiry
+              </SText>
+            </Content>
           </BlockView>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <SText color="#ffffff" size="22px" uppercase fontWeight="400">
-              Profile
-            </SText>
+            <Content horizontal justify="flex-start">
+              <PersonIcon
+                size="30px"
+                color="#ffffff"
+                style={{marginRight: 10}}
+              />
+              <SText color="#ffffff" size="22px" fontWeight="400">
+                Profile
+              </SText>
+            </Content>
           </BlockView>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Pencalc')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <SText color="#ffffff" size="22px" uppercase fontWeight="400">
-              Pen Calc
-            </SText>
+            <Content horizontal justify="flex-start">
+              <CalculatorIcon
+                size="30px"
+                color="#ffffff"
+                style={{marginRight: 10}}
+              />
+              <SText color="#ffffff" size="22px" fontWeight="400">
+                Pension Calculator
+              </SText>
+            </Content>
           </BlockView>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Locations')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <SText color="#ffffff" size="22px" uppercase fontWeight="400">
-              Office Locations
-            </SText>
-          </BlockView>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <SText color="#ffffff" size="22px" uppercase fontWeight="400">
-              Funds
-            </SText>
+            <Content horizontal justify="flex-start">
+              <LocationIcon
+                size="30px"
+                color="#ffffff"
+                style={{marginRight: 10}}
+              />
+              <SText color="#ffffff" size="22px" fontWeight="400">
+                Office Locations
+              </SText>
+            </Content>
           </BlockView>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => signOut()}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
-            <SText color="#ffffff" size="22px" fontWeight="400" uppercase>
-              Logout
-            </SText>
+            <Content horizontal justify="flex-start">
+              <LogoutIcon
+                size="30px"
+                color="#ffffff"
+                style={{marginRight: 10}}
+              />
+              <SText color="#ffffff" size="22px" fontWeight="400">
+                Logout
+              </SText>
+            </Content>
           </BlockView>
         </TouchableOpacity>
       </ScrollView>

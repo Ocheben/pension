@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
 import {View, Button, Dimensions, StatusBar} from 'react-native';
 import {
   Content,
@@ -9,13 +10,18 @@ import {
 } from '../../Components/styledComponents';
 import {Item, Icon, Label, List, ListItem, Text, Picker} from 'native-base';
 import {PersonIcon, LockIcon} from '../../Components/icons';
+import {getLocations} from '../../_store/actions/userActions';
 
 const {height, width} = Dimensions.get('window');
 const avatar = require('../../assets/img/avatar.png');
 
 const Locations = props => {
-  const {navigation} = props;
+  const {navigation, dispatch, userInfo} = props;
   const [requestType, setRequestType] = useState(undefined);
+
+  useEffect(() => {
+    dispatch(getLocations(userInfo.access_token));
+  },[]);
   return (
     // <View style={{backgroundColor: 'blue', flex: 1, justifyContent:'center'}}>
     //   <Text>Login</Text>
@@ -68,5 +74,9 @@ const Locations = props => {
     </Content>
   );
 };
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+  userData: state.userData,
+});
 
-export default Locations;
+export default connect(mapStateToProps)(Locations);

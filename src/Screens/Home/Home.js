@@ -1,6 +1,15 @@
-import React from 'react';
-import {View, Button, Text, Dimensions, TouchableOpacity, StatusBar} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  View,
+  Button,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
+import {connect} from 'react-redux';
 import {onSignOut} from '../../_services';
+import {getDash} from '../../_store/actions/userActions';
 import {
   SText,
   Content,
@@ -14,17 +23,29 @@ const {height, width} = Dimensions.get('window');
 const logo = require('../../assets/img/logo.png');
 
 const Home = props => {
-  const {navigation} = props;
+  const {navigation, dispatch, userInfo, userData} = props;
+  const {
+    dashboard: {user, totalContributionsThisYear, lastContribution},
+  } = userData;
   const signOut = () => {
     onSignOut();
     navigation.navigate('SignedOut');
   };
 
+  useEffect(() => {
+    dispatch(getDash(userInfo.access_token));
+  }, []);
+
   return (
-    <Content>
-    <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
-      <Content width="100%" bg={colors.primary} flex={4}>
-        <Content
+    <Content bg="#ffffff">
+      <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
+      <Content
+        width="100%"
+        bg={colors.primary}
+        flex={4}
+        blRadius={20}
+        brRadius={20}>
+        {/* <Content
           justify="space-between"
           hpadding={12}
           align="center"
@@ -42,29 +63,32 @@ const Home = props => {
             style={{alignSelf: 'center'}}
           />
           <View style={{width: 40}} />
-        </Content>
+        </Content> */}
         <Content flex={2} align="center" justify="center">
           <Content horizontal>
             <SText size="25px" color="#ffffff">
               Hello{' '}
             </SText>
             <SText size="25px" weight="700" color="#ffffff">
-              Oche Onoja
+              {user && user.name}
+              {/* Joe Jackson */}
             </SText>
           </Content>
           <Content horizontal>
             <SText size="20px" color="#ffffff">
-              RSA
+              RSA:
             </SText>
             <SText size="20px" weight="600" color="#ffffff">
-              102748393729
+              {'  '}
+              {user && user.rsa_account.rsa_pin}
+              {/* 97642398383024 */}
             </SText>
           </Content>
         </Content>
       </Content>
       <Content justify="space-evenly" flex={6}>
         <Content
-          bg="#363636"
+          bg="#ffffff"
           shadow
           flex={0.4}
           borderR={10}
@@ -72,15 +96,17 @@ const Home = props => {
           align="flex-start"
           hpadding={width / 20}
           justify="space-around">
-          <SText size="20px" color="#ffffff">
+          <SText size="20px" color={colors.dark}>
             Total Contribution
           </SText>
-          <SText size="30px" weight="600" color="#ffffff">
-            NGN 675,000.00
+          <SText size="30px" weight="600" color={colors.dark}>
+            {'\u20A6'}
+            {totalContributionsThisYear.split('.')[0]}
+            {/* 12,000 */}
           </SText>
         </Content>
         <Content
-          bg="#363636"
+          bg="#ffffff"
           shadow
           flex={0.4}
           borderR={10}
@@ -88,11 +114,21 @@ const Home = props => {
           align="flex-start"
           hpadding={width / 20}
           justify="space-around">
-          <SText size="20px" color="#ffffff">
-            Last Contribution (June 2019)
+          <SText size="20px" color={colors.dark}>
+            Last Contribution (
+            {/* {lastContribution.period &&
+              new Date(lastContribution.period).toLocaleDateString('en-us', {
+                month: 'short',
+                year: 'numeric',
+              })} */}
+            Dec 2019)
           </SText>
-          <SText size="30px" weight="600" color="#ffffff">
-            NGN 7,500.00
+          <SText size="30px" weight="600" color={colors.dark}>
+            {'\u20A6'}
+            {lastContribution.amount
+              ? lastContribution.amount.split('.')[0]
+              : 'N/A'}
+            {/* 12,000 */}
           </SText>
         </Content>
       </Content>
@@ -100,28 +136,82 @@ const Home = props => {
         align="flex-start"
         justify="space-around"
         hpadding={width / 20}
-        flex={4}>
+        flex={2.5}>
         <SText size="17px" color="#999999">
           Quick Links
         </SText>
-        <StyledButton bg="#777777" height={height / 20} curved width="100%">
-          <SText size="20px" color="#ffffff">
-            Check Benefit Status
-          </SText>
-        </StyledButton>
-        <StyledButton bg="#777777" height={height / 20} curved width="100%">
-          <SText size="20px" color="#ffffff">
-            Search Office Locations
-          </SText>
-        </StyledButton>
-        <StyledButton bg="#777777" height={height / 20} curved width="100%">
-          <SText size="20px" color="#ffffff">
-            Request RSA Statement
-          </SText>
-        </StyledButton>
+        <Content flex={0.5} horizontal justify="space-between">
+          <StyledButton
+            bg={colors.primary}
+            height={height / 20}
+            curved
+            onPress={() =>
+              navigation.navigate('Fund', {
+                url:
+                  'https://www.stanbicibtcpension.com/PensionManagers/Fund-Administration/RSA-Fund-I-Information',
+              })
+            }
+            width="45%">
+            <SText size="20px" color="#ffffff">
+              Fund I
+            </SText>
+          </StyledButton>
+          <StyledButton
+            bg={colors.primary}
+            height={height / 20}
+            curved
+            onPress={() =>
+              navigation.navigate('Fund', {
+                url:
+                  'https://www.stanbicibtcpension.com/PensionManagers/Fund-Administration/RSA-Fund-II-Information',
+              })
+            }
+            width="45%">
+            <SText size="20px" color="#ffffff">
+              Fund II
+            </SText>
+          </StyledButton>
+        </Content>
+        <Content flex={0.5} horizontal justify="space-between">
+          <StyledButton
+            bg={colors.primary}
+            height={height / 20}
+            curved
+            onPress={() =>
+              navigation.navigate('Fund', {
+                url:
+                  'https://www.stanbicibtcpension.com/PensionManagers/Fund-Administration/RSA-Fund-III-Information',
+              })
+            }
+            width="45%">
+            <SText size="20px" color="#ffffff">
+              Fund III
+            </SText>
+          </StyledButton>
+          <StyledButton
+            bg={colors.primary}
+            height={height / 20}
+            curved
+            onPress={() =>
+              navigation.navigate('Fund', {
+                url:
+                  'https://www.stanbicibtcpension.com/PensionManagers/Fund-Administration/RSA-Fund-IV-Information',
+              })
+            }
+            width="45%">
+            <SText size="20px" color="#ffffff">
+              Fund IV
+            </SText>
+          </StyledButton>
+        </Content>
       </Content>
     </Content>
   );
 };
 
-export default Home;
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+  userData: state.userData,
+});
+
+export default connect(mapStateToProps)(Home);

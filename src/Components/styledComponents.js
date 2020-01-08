@@ -1,4 +1,11 @@
 import styled from 'styled-components/native';
+import {Input} from 'native-base';
+
+export const colors = {
+  // primary: '#37bf86',
+  primary: '#004059',
+  dark: '#363636',
+};
 
 export const Content = styled.View`
   flex: ${props => props.flex || 1};
@@ -17,6 +24,8 @@ export const Content = styled.View`
   margin-left: ${props => props.lmargin || props.hmargin || 0};
   margin-right: ${props => props.rmargin || props.hmargin || 0};
   border-radius: ${props => props.borderR || 0};
+  border-bottom-left-radius: ${props => props.blRadius || props.borderR || 0};
+  border-bottom-right-radius: ${props => props.brRadius || props.borderR || 0};
   border-left-width: ${props => (props.ribbon ? 7 : 0)};
   border-left-color: ${props => (props.ribbon ? colors.primary : '#00000000')};
   box-shadow: ${props =>
@@ -59,10 +68,14 @@ export const SText = styled.Text`
 export const StyledButton = styled.TouchableOpacity`
   border-radius: ${props => (props.borderR || props.curved ? 10 : 0)};
   width: ${props => (props.width ? props.width : '80%')};
-  height: ${props => props.height || 60};
+  height: ${props => props.height || 50};
   background-color: ${props => (props.bg ? props.bg : 'transparent')};
   justify-content: center;
   align-items: center;
+  margin-top: ${props => props.tmargin || props.vmargin || 0};
+  margin-bottom: ${props => props.bmargin || props.vmargin || 0};
+  margin-left: ${props => props.hmargin || 0};
+  margin-right: ${props => props.hmargin || 0};
 `;
 
 export const BlockView = styled.View`
@@ -90,6 +103,10 @@ export const StyledText = styled.Text`
   width: ${props => (props.width ? props.width : 'auto')};
   text-align: ${props => (props.textAlign ? props.textAlign : 'left')};
   text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
+  margin-top: ${props => props.tmargin || props.vmargin || 0};
+  margin-bottom: ${props => props.bmargin || props.vmargin || 0};
+  margin-left: ${props => props.hmargin || 0};
+  margin-right: ${props => props.hmargin || 0};
 `;
 
 export const LogoImg = styled.Image`
@@ -100,7 +117,11 @@ export const LogoImg = styled.Image`
   margin-bottom: ${props => (props.bmargin ? props.bmargin : 0)};
 `;
 
-export const colors = {
-  primary: '#37bf86',
-  dark: '#363636',
-};
+export const SNInput = styled(Input)`
+  width: ${props => props.width || '100%'};
+  margin-top: ${props => props.tmargin || props.vmargin || 0};
+  margin-bottom: ${props => props.bmargin || props.vmargin || 0};
+  margin-left: ${props => props.lmargin || props.hmargin || 0};
+  margin-right: ${props => props.rmargin || props.hmargin || 0};
+  border-radius: ${props => props.borderR || 0};
+`;

@@ -1,0 +1,67 @@
+import {USERCONSTANTS, AUTHCONSTANTS} from '../../constants';
+
+const {
+  SET_DASHBOARD,
+  SET_LOADING,
+  SET_CONTRIBUTIONS,
+  SET_LOCATIONS,
+  SET_ACC_BAL,
+} = USERCONSTANTS;
+const {LOGOUT} = AUTHCONSTANTS;
+
+const initState = {
+  loading: '',
+  rates: {},
+  dashboard: {user: '', totalContributionsThisYear: '', lastContribution: {}},
+  contributions: {data: []},
+  loactions: [],
+  accountBalance: '',
+};
+
+const userData = (state = initState, action) => {
+  switch (action.type) {
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload,
+      };
+    case SET_DASHBOARD:
+      const ratesAr = JSON.parse(action.payload.employment.contribution_rates);
+      const employeeRate = ratesAr.find(e => e.contributor === 'employee').rate;
+      const employerRate = ratesAr.find(e => e.contributor === 'employer').rate;
+      const rates = {employeeRate, employerRate};
+      return {
+        ...state,
+        dashboard: action.payload,
+        rates,
+      };
+
+    case SET_CONTRIBUTIONS:
+      return {
+        ...state,
+        contributions: action.payload,
+      };
+
+    case SET_LOCATIONS:
+      return {
+        ...state,
+        locations: action.payload,
+      };
+
+    case SET_ACC_BAL:
+      return {
+        ...state,
+        accountBalance: action.payload,
+      };
+
+    case LOGOUT:
+      return {
+        ...initState,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export default userData;

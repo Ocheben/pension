@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -23,6 +23,13 @@ import {
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import {Root} from 'native-base';
+import SplashScreen from 'react-native-splash-screen';
+
+import {PersistGate} from 'redux-persist/integration/react';
+import {Provider} from 'react-redux';
+// Imports: Redux Persist Persister
+import {store, persistor} from './src/_store/store';
 
 import {isSignedIn} from './src/_services';
 import {createRootNavigator} from './src/router';
@@ -30,6 +37,11 @@ import {createRootNavigator} from './src/router';
 const App: () => React$Node = () => {
   const [signedIn, setSignedIn] = useState(false);
   const [checkedSignIn, setCheckedSignIn] = useState(false);
+
+  useEffect(() => {
+    checkSignIn();
+    SplashScreen.hide();
+  }, []);
 
   const checkSignIn = () => {
     isSignedIn()
@@ -40,9 +52,15 @@ const App: () => React$Node = () => {
       .catch(err => alert('An error occurred', err));
   };
   const Layout = createRootNavigator(signedIn);
-  return (
+  return !checkedSignIn ? null : (
     <>
-      <Layout />
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Root>
+            <Layout />
+          </Root>
+        </PersistGate>
+      </Provider>
     </>
   );
 };

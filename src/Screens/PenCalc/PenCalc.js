@@ -41,6 +41,7 @@ const PenCalc = props => {
           </Content>
           <Content width="90%" flex={0.2} justify="center" horizontal>
             <StyledButton
+              curved
               bg={colors.primary}
               width="80%"
               // onPress={() => signIn('user')}
