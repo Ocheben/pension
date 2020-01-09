@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import {View, Button, Text, Dimensions, ScrollView} from 'react-native';
-import {List, ListItem, Icon} from 'native-base';
+import {List, ListItem, Icon, Toast} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {onSignOut} from '../../_services';
 import {getContri} from '../../_store/actions/userActions';
@@ -19,20 +19,22 @@ import {
   EmployeeIcon,
 } from '../../Components/icons';
 import {LastContributionIcon} from '../../Components/Vectors';
+import {APIS, requestJwt, toastDefault} from '../../_services';
+import {formatDate} from '../../_helpers';
 
 const {height, width} = Dimensions.get('window');
 
 const LastContribution = props => {
   const {navigation, dispatch, userInfo, userData} = props;
-  const {contributions} = userData;
+  const {
+    dashboard: {lastContribution},
+  } = userData;
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(false);
   const signOut = () => {
     onSignOut();
     navigation.navigate('SignedOut');
   };
-
-  // useEffect(() => {
-  //   dispatch(getContri(userInfo.access_token));
-  // }, []);
 
   const item = {
     id: 12,
@@ -57,10 +59,7 @@ const LastContribution = props => {
             style={{marginRight: 10}}
           />
           <SText size="20px" color={colors.dark}>
-            {new Date(item.period).toLocaleDateString('default', {
-              month: 'long',
-              year: 'numeric',
-            })}
+            {formatDate(lastContribution.period)}
           </SText>
         </Content>
         <Content horizontal flex={0.2} justify="center">
@@ -70,7 +69,7 @@ const LastContribution = props => {
             style={{marginRight: 10}}
           />
           <SText size="20px" color={colors.dark}>
-            {item.contributor}
+            {lastContribution.contributor}
           </SText>
         </Content>
 
@@ -83,7 +82,7 @@ const LastContribution = props => {
             />
             <SText size="20px" color={colors.dark}>
               {'\u20A6'}
-              {item.amount * employerRate}
+              {lastContribution.amount.split('.')[0] * employerRate}
             </SText>
           </Content>
           <Content horizontal justify="center">
@@ -94,14 +93,14 @@ const LastContribution = props => {
             />
             <SText size="20px" color={colors.dark}>
               {'\u20A6'}
-              {item.amount * employeeRate}
+              {lastContribution.amount.split('.')[0] * employeeRate}
             </SText>
           </Content>
         </Content>
 
         <SText size="25px" weight="700" color={colors.dark}>
           {'\u20A6'}
-          {item.amount}
+          {lastContribution.amount.split('.')[0]}
         </SText>
       </Content>
     </Content>

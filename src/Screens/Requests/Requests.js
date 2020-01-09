@@ -54,22 +54,11 @@ const Requests = props => {
       userInfo.access_token,
     );
     console.log(response, method, submitUrl, data);
-    if (typeof response !== 'object') {
-      Toast.show({
-        ...toastDefault,
-        text: 'You have successfully created request',
-        type: 'success',
-      });
-      setLoading(false);
-    } else if (typeof response === 'object') {
-      Toast.show({
-        ...toastDefault,
-        text: response.error,
-        type: 'danger',
-      });
-    } else {
-      console.log(response);
-    }
+    Toast.show({
+      ...toastDefault,
+      text: 'You have successfully created request',
+      type: 'success',
+    });
     setLoading(false);
   };
   return (

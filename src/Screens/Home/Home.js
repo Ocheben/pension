@@ -18,6 +18,7 @@ import {
   LogoImg,
 } from '../../Components/styledComponents';
 import {MenuIcon} from '../../Components/icons';
+import {formatDate} from '../../_helpers';
 
 const {height, width} = Dimensions.get('window');
 const logo = require('../../assets/img/logo.png');
@@ -116,12 +117,7 @@ const Home = props => {
           justify="space-around">
           <SText size="20px" color={colors.dark}>
             Last Contribution (
-            {/* {lastContribution.period &&
-              new Date(lastContribution.period).toLocaleDateString('en-us', {
-                month: 'short',
-                year: 'numeric',
-              })} */}
-            Dec 2019)
+            {lastContribution.period && formatDate(lastContribution.period)})
           </SText>
           <SText size="30px" weight="600" color={colors.dark}>
             {'\u20A6'}

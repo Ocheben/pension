@@ -40,8 +40,8 @@ const AccountBalance = props => {
         {loading !== 'accountBalance' ? (
           <SText color="#444444" size="30px" weight="700" align="center">
             {'\u20A6'}
-            {/* {accountBalance} */}
-            12,000
+            {accountBalance.split('.')[0]}
+            {/* 12,000 */}
           </SText>
         ) : (
           <Spinner color={colors.primary} />

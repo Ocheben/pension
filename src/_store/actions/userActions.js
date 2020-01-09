@@ -6,7 +6,8 @@ const {
   SET_LOADING,
   SET_CONTRIBUTIONS,
   SET_LOCATIONS,
-  SET_ACC_BAL
+  SET_ACC_BAL,
+  SET_OFFICER,
 } = USERCONSTANTS;
 const actionCreator = (type, payload) => ({type, payload});
 
@@ -73,6 +74,23 @@ export const getAccBal = jwt => {
     console.log(url, response);
     if (response.data) {
       dispatch(actionCreator(SET_ACC_BAL, response.data));
+    }
+    dispatch(actionCreator(SET_LOADING, ''));
+  };
+};
+
+export const getOfficer = jwt => {
+  const {
+    baseUrl,
+    getEnquiry: {method, path},
+  } = APIS;
+  const url = `${baseUrl}${path('account_officer')}`;
+  return async dispatch => {
+    dispatch(actionCreator(SET_LOADING, 'accountOfficer'));
+    const response = await requestJwt(method, url, {}, jwt);
+    console.log(url, response);
+    if (response.data) {
+      dispatch(actionCreator(SET_OFFICER, response.data));
     }
     dispatch(actionCreator(SET_LOADING, ''));
   };

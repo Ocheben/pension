@@ -12,7 +12,8 @@ import {
   StyledButton,
   colors,
 } from '../../Components/styledComponents';
-import { CorporationIcon, EmployeeIcon, ClockIcon, LocationIcon } from '../../Components/icons';
+import {CorporationIcon, EmployeeIcon, ClockIcon, LocationIcon} from '../../Components/icons';
+import {formatDate} from '../../_helpers';
 
 const {height, width} = Dimensions.get('window');
 
@@ -111,8 +112,8 @@ const Contribution = props => {
     <ScrollView>
       <Content justify="space-evenly" vmargin={15} flex={6}>
         {Array.isArray(contributions.data)
-          // ? contributions.data.map(item => (
-          ? itemArray.map(item => (
+          ? contributions.data.map(item => (
+          // ? itemArray.map(item => (
               <ContentButton
                 key={item.id}
                 // onPress={() =>
@@ -138,10 +139,7 @@ const Contribution = props => {
                     style={{marginRight: 10}}
                   />
                   <SText size="20px" color={colors.dark}>
-                    {new Date(item.period).toLocaleDateString('default', {
-                      month: 'long',
-                      year: 'numeric',
-                    })}
+                    {formatDate(item.period)}
                   </SText>
                 </Content>
                 <Content horizontal justify="flex-start">
@@ -182,7 +180,7 @@ const Contribution = props => {
 
                 <SText size="25px" weight="700" color={colors.dark}>
                   {'\u20A6'}
-                  {item.amount}
+                  {item.amount.split('.')[0]}
                 </SText>
               </ContentButton>
             ))

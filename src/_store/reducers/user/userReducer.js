@@ -6,6 +6,7 @@ const {
   SET_CONTRIBUTIONS,
   SET_LOCATIONS,
   SET_ACC_BAL,
+  SET_OFFICER,
 } = USERCONSTANTS;
 const {LOGOUT} = AUTHCONSTANTS;
 
@@ -16,6 +17,7 @@ const initState = {
   contributions: {data: []},
   loactions: [],
   accountBalance: '',
+  officer: {},
 };
 
 const userData = (state = initState, action) => {
@@ -52,6 +54,12 @@ const userData = (state = initState, action) => {
       return {
         ...state,
         accountBalance: action.payload,
+      };
+
+    case SET_OFFICER:
+      return {
+        ...state,
+        officer: action.payload,
       };
 
     case LOGOUT:
