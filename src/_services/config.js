@@ -10,7 +10,11 @@ export const APIS = {
   },
   createPasswordToken: {
     method: 'POST',
-    path: '/api/auth/password/create',
+    path: '/api/auth/password/create/mobile',
+  },
+  getCredentials: {
+    method: 'POST',
+    path: '/api/client/get-credentials',
   },
   dashboard: {
     method: 'GET',
@@ -18,7 +22,15 @@ export const APIS = {
   },
   getContributions: {
     method: 'GET',
-    path: '/api/client/contributions',
+    path: (start, end) =>
+      `/api/client/contributions?start_date=${start || ''}&end_date=${end ||
+        ''}`,
+  },
+  getStatement: {
+    method: 'GET',
+    path: (start, end) =>
+      `/api/client/rsa-statement?start_date=${start || ''}&end_date=${end ||
+        ''}`,
   },
   createRequest: {
     method: 'POST',
@@ -26,16 +38,24 @@ export const APIS = {
   },
   getLocations: {
     method: 'GET',
-    path: '/api/client/office-locations',
+    path: state => `/api/client/office-locations?state=${state || ''}`,
   },
   getEnquiry: {
     method: 'GET',
     path: type => `/api/client/enquiries?q=${type}`,
+  },
+  calcPension: {
+    method: 'POST',
+    path: '/api/client/pension-calculator',
+  },
+  editProfile: {
+    method: 'POST',
+    path: '/api/client/profile',
   },
 };
 
 export const toastDefault = {
   buttonText: 'Okay',
   duration: 4000,
-  position: 'top',
+  position: 'bottom',
 };

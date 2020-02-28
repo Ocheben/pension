@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {View, Button, Text, Dimensions, ScrollView} from 'react-native';
 import {List, ListItem, Icon, Toast} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import NumberFormat from 'react-number-format';
 import {onSignOut} from '../../_services';
 import {getContri} from '../../_store/actions/userActions';
 import {
@@ -17,6 +18,7 @@ import {
   LocationIcon,
   CorporationIcon,
   EmployeeIcon,
+  ContributionIcon,
 } from '../../Components/icons';
 import {LastContributionIcon} from '../../Components/Vectors';
 import {APIS, requestJwt, toastDefault} from '../../_services';
@@ -69,7 +71,7 @@ const LastContribution = props => {
             style={{marginRight: 10}}
           />
           <SText size="20px" color={colors.dark}>
-            {lastContribution.contributor}
+            {lastContribution.contributor || ''}
           </SText>
         </Content>
 
@@ -80,10 +82,17 @@ const LastContribution = props => {
               color={colors.primary}
               style={{marginRight: 10}}
             />
-            <SText size="20px" color={colors.dark}>
-              {'\u20A6'}
-              {lastContribution.amount.split('.')[0] * employerRate}
-            </SText>
+            <NumberFormat
+              value={parseInt(lastContribution.er || 0, 10)}
+              displayType={'text'}
+              thousandSeparator={true}
+              prefix={'\u20A6'}
+              renderText={value => (
+                <SText size="20px" color={colors.dark}>
+                  {value}
+                </SText>
+              )}
+            />
           </Content>
           <Content horizontal justify="center">
             <EmployeeIcon
@@ -91,17 +100,53 @@ const LastContribution = props => {
               color={colors.primary}
               style={{marginRight: 10}}
             />
-            <SText size="20px" color={colors.dark}>
-              {'\u20A6'}
-              {lastContribution.amount.split('.')[0] * employeeRate}
-            </SText>
+            <NumberFormat
+              value={parseInt(lastContribution.ee || 0, 10)}
+              displayType={'text'}
+              thousandSeparator={true}
+              prefix={'\u20A6'}
+              renderText={value => (
+                <SText size="20px" color={colors.dark}>
+                  {value}
+                </SText>
+              )}
+            />
           </Content>
         </Content>
+        <Content horizontal flex={0.2} justify="center">
+          <ContributionIcon
+            size="25px"
+            color={colors.primary}
+            style={{marginRight: 10}}
+          />
+          <NumberFormat
+            value={parseInt(lastContribution.vv || 0, 10)}
+            displayType={'text'}
+            thousandSeparator={true}
+            prefix={'\u20A6'}
+            renderText={value => (
+              <SText size="20px" color={colors.dark}>
+                {value}
+              </SText>
+            )}
+          />
+        </Content>
 
-        <SText size="25px" weight="700" color={colors.dark}>
-          {'\u20A6'}
-          {lastContribution.amount.split('.')[0]}
-        </SText>
+        <NumberFormat
+          value={
+            parseInt(lastContribution.ee || 0, 10) +
+            parseInt(lastContribution.er || 0, 10) +
+            parseInt(lastContribution.vv || 0, 10)
+          }
+          displayType={'text'}
+          thousandSeparator={true}
+          prefix={'\u20A6'}
+          renderText={value => (
+            <SText size="25px" weight="700" color={colors.dark}>
+              {value}
+            </SText>
+          )}
+        />
       </Content>
     </Content>
   );

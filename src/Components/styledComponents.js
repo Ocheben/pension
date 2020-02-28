@@ -63,6 +63,10 @@ export const SText = styled.Text`
   font-weight: ${props => props.weight || '400'};
   color: ${props => props.color || '#000000'};
   text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
+  margin-top: ${props => props.tmargin || props.vmargin || 0};
+  margin-bottom: ${props => props.bmargin || props.vmargin || 0};
+  margin-left: ${props => props.hmargin || 0};
+  margin-right: ${props => props.hmargin || 0};
 `;
 
 export const StyledButton = styled.TouchableOpacity`
@@ -70,8 +74,8 @@ export const StyledButton = styled.TouchableOpacity`
   width: ${props => (props.width ? props.width : '80%')};
   height: ${props => props.height || 50};
   background-color: ${props => (props.bg ? props.bg : 'transparent')};
-  justify-content: center;
-  align-items: center;
+  justify-content: ${props => props.justify || 'center'};
+  align-items: ${props => props.align || 'center'};
   margin-top: ${props => props.tmargin || props.vmargin || 0};
   margin-bottom: ${props => props.bmargin || props.vmargin || 0};
   margin-left: ${props => props.hmargin || 0};

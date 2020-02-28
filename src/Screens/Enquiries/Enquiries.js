@@ -73,6 +73,22 @@ const Enquiries = props => {
               </ListItem>
             </TouchableOpacity>
             <TouchableOpacity
+              onPress={() => navigation.navigate('Contributions')}>
+              <ListItem>
+                <Content horizontal justify="space-between">
+                  <Content horizontal justify="flex-start" align="center">
+                    <LastContributionIcon size={width / 6} />
+                    <Content hmargin={10} align="flex-start">
+                      <SText color="#333333" weight="600">
+                        Search Contributions
+                      </SText>
+                    </Content>
+                  </Content>
+                  <NextIcon color={colors.primary} size="20px" />
+                </Content>
+              </ListItem>
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={() => navigation.navigate('LastContribution')}>
               <ListItem>
                 <Content horizontal justify="space-between">
@@ -112,7 +128,7 @@ const Enquiries = props => {
                     <LostCoinIcon size={width / 6} />
                     <Content hmargin={10} align="flex-start">
                       <SText color="#333333" weight="600">
-                        Check Missong Contribution
+                        Check Missing Contribution
                       </SText>
                     </Content>
                   </Content>

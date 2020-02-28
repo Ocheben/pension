@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {View, Button, Text, Dimensions, ScrollView} from 'react-native';
 import {List, ListItem, Icon, Spinner} from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import NumberFormat from 'react-number-format';
 import {onSignOut} from '../../_services';
 import {getContri, getAccBal} from '../../_store/actions/userActions';
 import {
@@ -34,17 +35,25 @@ const AccountBalance = props => {
         <BalanceIcon size={height / 3} />
       </Content>
       <Content justify="flex-start">
-        <SText color="#444444" size={width * 0.06} align="center">
-          Your account balance is:
-        </SText>
-        {loading !== 'accountBalance' ? (
-          <SText color="#444444" size="30px" weight="700" align="center">
-            {'\u20A6'}
-            {accountBalance.split('.')[0]}
-            {/* 12,000 */}
-          </SText>
-        ) : (
+        {loading === 'accountBalance' ? (
           <Spinner color={colors.primary} />
+        ) : (
+          <>
+            <SText color="#444444" size={width * 0.06} align="center">
+              Your account balance is:
+            </SText>
+            <NumberFormat
+              value={parseInt(accountBalance || 0, 10)}
+              displayType={'text'}
+              thousandSeparator={true}
+              prefix={'\u20A6'}
+              renderText={value => (
+                <SText color="#444444" size="30px" weight="700" align="center">
+                  {value}
+                </SText>
+              )}
+            />
+          </>
         )}
       </Content>
     </Content>

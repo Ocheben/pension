@@ -23,6 +23,7 @@ import {
   RsaStatement,
 } from './Screens/Enquiries';
 import ChangePassword from './Screens/Profile/ChangePassword';
+import EditProfile from './Screens/Profile/EditProfile';
 import Locations from './Screens/Locations/Locations';
 import {
   LogoImg,
@@ -31,7 +32,8 @@ import {
   colors,
   SText,
 } from './Components/styledComponents';
-import {GridIcon, MenuIcon} from './Components/icons';
+import {GridIcon, MenuIcon, EditIcon} from './Components/icons';
+import SignUp from './Screens/AuthScreens/Login/SignUp';
 
 const logo = require('./assets/img/logo.png');
 const {height, width} = Dimensions.get('window');
@@ -144,7 +146,7 @@ const HomeStack = createStackNavigator({
           </TouchableOpacity>
           <LogoImg
             source={logo}
-            width={width * 0.3}
+            width={width * 0.35}
             resizeMode="contain"
             style={{alignSelf: 'center'}}
           />
@@ -234,6 +236,21 @@ const EnquiryStack = createStackNavigator({
     screen: LastContribution,
     navigationOptions: ({navigation}) => ({
       headerTitle: 'Last Contribution',
+      headerStyle: {
+        backgroundColor: colors.primary,
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontSize: 25,
+        color: '#ffffff',
+      },
+      headerTintColor: '#ffffff',
+    }),
+  },
+  Contributions: {
+    screen: ContributionList,
+    navigationOptions: ({navigation}) => ({
+      headerTitle: 'Contributions',
       headerStyle: {
         backgroundColor: colors.primary,
       },
@@ -354,6 +371,21 @@ const ProfileStack = createStackNavigator({
       headerTintColor: '#ffffff',
     }),
   },
+  EditProfile: {
+    screen: EditProfile,
+    navigationOptions: ({navigation}) => ({
+      headerTitle: 'Edit Profile',
+      headerStyle: {
+        backgroundColor: colors.primary,
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        fontSize: 25,
+        color: '#ffffff',
+      },
+      headerTintColor: '#ffffff',
+    }),
+  },
 });
 
 const LocationsStack = createStackNavigator({
@@ -385,6 +417,24 @@ const LocationsStack = createStackNavigator({
         </Content>
       ),
     }),
+  },
+});
+
+const AuthStack = createStackNavigator({
+  Login: {
+    screen: Login,
+    navigationOptions: {
+      header: null,
+    },
+  },
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {
+      header: null,
+      headerStyle: {
+        elevation: 0,
+      },
+    },
   },
 });
 
@@ -426,7 +476,7 @@ export const createRootNavigator = (signedIn = false) =>
           screen: SignedIn,
         },
         SignedOut: {
-          screen: Login,
+          screen: AuthStack,
         },
       },
       {

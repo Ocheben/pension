@@ -26,8 +26,8 @@ const Requests = props => {
   const {navigation, dispatch, userInfo} = props;
   const {height, width} = Dimensions.get('window');
   const [loading, setLoading] = useState(false);
-  const [requestType, setRequestType] = useState(undefined);
-  const [preferredResponse, setPreferredResponse] = useState(undefined);
+  const [requestType, setRequestType] = useState(null);
+  const [preferredResponse, setPreferredResponse] = useState(null);
   const [requestBody, setRequestBody] = useState('');
 
   const handleSubmit = async () => {
@@ -70,16 +70,16 @@ const Requests = props => {
         <Content flex={1} justify="center" align="center">
           <Content width="90%" flex={0.2} align="center">
             <Item picker>
-              <Label>Request Type</Label>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
                 style={{width: undefined}}
-                placeholder="Select your SIM"
+                placeholder="Select Type"
                 placeholderStyle={{color: '#bfc6ea'}}
                 placeholderIconColor="#007aff"
                 selectedValue={requestType}
                 onValueChange={value => setRequestType(value)}>
+                <Picker.Item label="Select Request Type" value={null} />
                 <Picker.Item label="Contributions" value="contributions" />
                 <Picker.Item label="RSA Statement" value="rsa" />
               </Picker>
@@ -92,16 +92,16 @@ const Requests = props => {
             align="center"
             horizontal>
             <Item picker>
-              <Label>Preferred Response</Label>
               <Picker
                 mode="dropdown"
                 iosIcon={<Icon name="arrow-down" />}
                 style={{width: undefined}}
-                placeholder="Select your SIM"
+                placeholder="Select Response"
                 placeholderStyle={{color: '#bfc6ea'}}
                 placeholderIconColor="#007aff"
                 selectedValue={preferredResponse}
                 onValueChange={value => setPreferredResponse(value)}>
+                <Picker.Item label="Select Preferred Response" value={null} />
                 <Picker.Item label="SMS" value="sms" />
                 <Picker.Item label="Email" value="email" />
                 <Picker.Item label="Phone" value="phone" />
@@ -123,9 +123,7 @@ const Requests = props => {
               curved
               bg={colors.primary}
               width="90%"
-              disabled={
-                requestType === undefined || preferredResponse === undefined
-              }
+              disabled={requestType === null || preferredResponse === null}
               onPress={() => handleSubmit()}>
               {loading ? (
                 <Spinner color="#ffffff" />

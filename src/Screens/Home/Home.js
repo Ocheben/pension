@@ -8,6 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 import {connect} from 'react-redux';
+import NumberFormat from 'react-number-format';
 import {onSignOut} from '../../_services';
 import {getDash} from '../../_store/actions/userActions';
 import {
@@ -19,6 +20,7 @@ import {
 } from '../../Components/styledComponents';
 import {MenuIcon} from '../../Components/icons';
 import {formatDate} from '../../_helpers';
+import {Spinner} from 'native-base';
 
 const {height, width} = Dimensions.get('window');
 const logo = require('../../assets/img/logo.png');
@@ -26,6 +28,7 @@ const logo = require('../../assets/img/logo.png');
 const Home = props => {
   const {navigation, dispatch, userInfo, userData} = props;
   const {
+    loading,
     dashboard: {user, totalContributionsThisYear, lastContribution},
   } = userData;
   const signOut = () => {
@@ -76,14 +79,18 @@ const Home = props => {
             </SText>
           </Content>
           <Content horizontal>
-            <SText size="20px" color="#ffffff">
-              RSA:
-            </SText>
-            <SText size="20px" weight="600" color="#ffffff">
-              {'  '}
-              {user && user.rsa_account.rsa_pin}
-              {/* 97642398383024 */}
-            </SText>
+            {loading !== 'dashboard' && (
+              <>
+                <SText size="20px" color="#ffffff">
+                  RSA:
+                </SText>
+                <SText size="20px" weight="600" color="#ffffff">
+                  {'  '}
+                  {user && user.rsa_account.rsa_pin}
+                  {/* 97642398383024 */}
+                </SText>
+              </>
+            )}
           </Content>
         </Content>
       </Content>
@@ -100,11 +107,21 @@ const Home = props => {
           <SText size="20px" color={colors.dark}>
             Total Contribution
           </SText>
-          <SText size="30px" weight="600" color={colors.dark}>
-            {'\u20A6'}
-            {totalContributionsThisYear.split('.')[0]}
-            {/* 12,000 */}
-          </SText>
+          {loading === 'dashboard' ? (
+            <Spinner color={colors.primary} />
+          ) : (
+            <NumberFormat
+              value={parseInt(totalContributionsThisYear, 10)}
+              displayType={'text'}
+              thousandSeparator={true}
+              prefix={'\u20A6'}
+              renderText={value => (
+                <SText size="30px" weight="600" color={colors.dark}>
+                  {value}
+                </SText>
+              )}
+            />
+          )}
         </Content>
         <Content
           bg="#ffffff"
@@ -116,16 +133,28 @@ const Home = props => {
           hpadding={width / 20}
           justify="space-around">
           <SText size="20px" color={colors.dark}>
-            Last Contribution (
-            {lastContribution.period && formatDate(lastContribution.period)})
+            Last Contribution
+            {lastContribution.period &&
+              ` (${formatDate(lastContribution.period)})`}
           </SText>
-          <SText size="30px" weight="600" color={colors.dark}>
-            {'\u20A6'}
-            {lastContribution.amount
-              ? lastContribution.amount.split('.')[0]
-              : 'N/A'}
-            {/* 12,000 */}
-          </SText>
+          {loading === 'dashboard' ? (
+            <Spinner color={colors.primary} />
+          ) : (
+            <NumberFormat
+              value={
+                parseInt(lastContribution.ee, 10) +
+                parseInt(lastContribution.er, 10)
+              }
+              displayType={'text'}
+              thousandSeparator={true}
+              prefix={'\u20A6'}
+              renderText={value => (
+                <SText size="30px" weight="600" color={colors.dark}>
+                  {value}
+                </SText>
+              )}
+            />
+          )}
         </Content>
       </Content>
       <Content
@@ -143,8 +172,7 @@ const Home = props => {
             curved
             onPress={() =>
               navigation.navigate('Fund', {
-                url:
-                  'https://www.stanbicibtcpension.com/PensionManagers/Fund-Administration/RSA-Fund-I-Information',
+                url: 'https://premiumpension.com/view-history/?id=13',
               })
             }
             width="45%">
@@ -158,8 +186,7 @@ const Home = props => {
             curved
             onPress={() =>
               navigation.navigate('Fund', {
-                url:
-                  'https://www.stanbicibtcpension.com/PensionManagers/Fund-Administration/RSA-Fund-II-Information',
+                url: 'https://premiumpension.com/view-history/?id=13',
               })
             }
             width="45%">
@@ -175,8 +202,7 @@ const Home = props => {
             curved
             onPress={() =>
               navigation.navigate('Fund', {
-                url:
-                  'https://www.stanbicibtcpension.com/PensionManagers/Fund-Administration/RSA-Fund-III-Information',
+                url: 'https://premiumpension.com/view-history/?id=14',
               })
             }
             width="45%">
@@ -190,8 +216,7 @@ const Home = props => {
             curved
             onPress={() =>
               navigation.navigate('Fund', {
-                url:
-                  'https://www.stanbicibtcpension.com/PensionManagers/Fund-Administration/RSA-Fund-IV-Information',
+                url: 'https://premiumpension.com/view-history/?id=2',
               })
             }
             width="45%">

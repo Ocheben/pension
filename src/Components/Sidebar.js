@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
+import {connect} from 'react-redux';
 import {ScrollView, Dimensions, View} from 'react-native';
 import {NavigationActions} from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -30,9 +31,13 @@ const Sidebar = props => {
   //   };
   //   getUser();
   // }, []);
-  const {navigation} = props;
+  const {navigation, userData} = props;
+  const {
+    dashboard: {
+      user: {name},
+    },
+  } = userData;
   const signOut = () => {
-    const {navigation} = props;
     onSignOut();
     navigation.navigate('SignedOut');
   };
@@ -68,7 +73,7 @@ const Sidebar = props => {
         </View>
         <BlockView hmargin={width / 30}>
           <SText color="#ffffff" size="27px" weight="600">
-            Oche Onoja
+            {name}
           </SText>
         </BlockView>
       </View>
@@ -87,7 +92,7 @@ const Sidebar = props => {
             </Content>
           </BlockView>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Contribution')}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate('Contribution')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
             <Content horizontal justify="flex-start">
               <ContributionIcon
@@ -100,7 +105,7 @@ const Sidebar = props => {
               </SText>
             </Content>
           </BlockView>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={() => navigation.navigate('Requests')}>
           <BlockView width="100%" hmargin={width / 20} height={height / 15}>
             <Content horizontal justify="flex-start">
@@ -124,7 +129,7 @@ const Sidebar = props => {
                 style={{marginRight: 10}}
               />
               <SText color="#ffffff" size="22px" fontWeight="400">
-                Enquiry
+                Enquiries
               </SText>
             </Content>
           </BlockView>
@@ -190,4 +195,9 @@ const Sidebar = props => {
   );
 };
 
-export default Sidebar;
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+  userData: state.userData,
+});
+
+export default connect(mapStateToProps)(Sidebar);

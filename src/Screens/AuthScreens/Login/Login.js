@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {View, Button, Text, Dimensions, StatusBar} from 'react-native';
 import {connect} from 'react-redux';
 import {Toast, Spinner} from 'native-base';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {onSignIn} from '../../../_services';
 import {
   Content,
@@ -12,7 +13,7 @@ import {
   colors,
 } from '../../../Components/styledComponents';
 import {Item, Input, Icon, Label} from 'native-base';
-import {PersonIcon, LockIcon} from '../../../Components/icons';
+import {PersonIcon, LockIcon, AtIcon} from '../../../Components/icons';
 import {APIS, request, toastDefault} from '../../../_services';
 import {login} from '../../../_store/actions/authActions';
 import { LostCoinIcon } from '../../../Components/Vectors';
@@ -51,14 +52,12 @@ const Login = props => {
       setLoading(false);
       dispatch(login({...response, isLoggedin: true}));
       await signIn(JSON.stringify(response));
-    } else if (response.error) {
+    } else {
       Toast.show({
         ...toastDefault,
-        text: response.error,
+        text: 'Invalid username or password',
         type: 'danger',
       });
-    } else {
-      console.log(response);
     }
     setLoading(false);
   };
@@ -68,18 +67,24 @@ const Login = props => {
     //   <Text>Login</Text>
     //   <Button onPress={() => signIn('user')} title="Login" />
     // </View>
-    <Content bg="#ffffff">
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{x: 0, y: 0}}
+      contentContainerStyle={{
+        flexGrow: 1,
+        backgroundColor: '#ffffff',
+        alignItems: 'center',
+      }}>
     <StatusBar backgroundColor={colors.dark} barStyle="light-content" />
       <Content flex={0.3} justify="space-evenly">
-        <LogoImg source={logo} width={width * 0.3} resizeMode="contain" />
+        <LogoImg source={logo} width={width * 0.4} resizeMode="contain" />
         {/* <LostCoinIcon size={width * 0.2} /> */}
         <SText size="18px" color="#777777">
-          Login to your account
+          Log in to your account
         </SText>
       </Content>
       <Content flex={0.3} width="90%">
         <Item style={{marginBottom: 15}}>
-          <PersonIcon color={colors.primary} size={30} />
+          <AtIcon color={colors.primary} size={30} />
           <SNInput
             floatingLabel
             placeholder="Email/Phone"
@@ -101,7 +106,7 @@ const Login = props => {
           />
         </Item>
       </Content>
-      <Content flex={0.3}>
+      <Content flex={0.2} justify="space-evenly">
         <StyledButton
           curved
           bg={colors.primary}
@@ -111,12 +116,33 @@ const Login = props => {
             <Spinner color="#ffffff" />
           ) : (
             <SText size="20px" color="#ffffff">
-              Login
+              Log In
             </SText>
           )}
         </StyledButton>
+        <StyledButton
+          width="auto"
+          height="auto"
+          onPress={() => navigation.navigate('SignUp')}>
+          <SText size="15px" weight="700" color={colors.primary}>
+            Forgot Password
+          </SText>
+        </StyledButton>
+        <View style={{ flexDirection: 'row'}}>
+          <SText size="15px" color="#777777" hmargin={5}>
+            Don't have an account?
+          </SText>
+          <StyledButton
+            width="auto"
+            height="auto"
+            onPress={() => navigation.navigate('SignUp')}>
+            <SText size="15px" weight="700" color={colors.primary}>
+              Sign Up
+            </SText>
+          </StyledButton>
+        </View>
       </Content>
-    </Content>
+    </KeyboardAwareScrollView>
   );
 };
 

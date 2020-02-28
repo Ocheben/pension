@@ -1,5 +1,6 @@
+import {Toast} from 'native-base';
 import {USERCONSTANTS} from '../constants';
-import {APIS, requestJwt} from '../../_services';
+import {APIS, requestJwt, toastDefault} from '../../_services';
 
 const {
   SET_DASHBOARD,
@@ -8,6 +9,7 @@ const {
   SET_LOCATIONS,
   SET_ACC_BAL,
   SET_OFFICER,
+  SET_MISSING,
 } = USERCONSTANTS;
 const actionCreator = (type, payload) => ({type, payload});
 
@@ -28,29 +30,30 @@ export const getDash = jwt => {
   };
 };
 
-export const getContri = jwt => {
+export const getContri = (jwt, start, end) => {
   const {
     baseUrl,
     getContributions: {method, path},
   } = APIS;
-  const url = `${baseUrl}${path}`;
+  console.log(start, end);
+  const url = `${baseUrl}${path(start, end)}`;
   return async dispatch => {
     dispatch(actionCreator(SET_LOADING, 'contributions'));
     const response = await requestJwt(method, url, {}, jwt);
     console.log(url, response);
-    if (response.contributions) {
-      dispatch(actionCreator(SET_CONTRIBUTIONS, response.contributions));
+    if (response) {
+      dispatch(actionCreator(SET_CONTRIBUTIONS, response));
     }
     dispatch(actionCreator(SET_LOADING, ''));
   };
 };
 
-export const getLocations = jwt => {
+export const getLocations = (state, jwt) => {
   const {
     baseUrl,
     getLocations: {method, path},
   } = APIS;
-  const url = `${baseUrl}${path}`;
+  const url = `${baseUrl}${path(state)}`;
   return async dispatch => {
     dispatch(actionCreator(SET_LOADING, 'locations'));
     const response = await requestJwt(method, url, {}, jwt);
@@ -91,6 +94,35 @@ export const getOfficer = jwt => {
     console.log(url, response);
     if (response.data) {
       dispatch(actionCreator(SET_OFFICER, response.data));
+    } else {
+      Toast.show({
+        ...toastDefault,
+        text: 'There might be a problem with your connection',
+        type: 'danger',
+      });
+    }
+    dispatch(actionCreator(SET_LOADING, ''));
+  };
+};
+
+export const getMissing = jwt => {
+  const {
+    baseUrl,
+    getEnquiry: {method, path},
+  } = APIS;
+  const url = `${baseUrl}${path('missing_contributions')}`;
+  return async dispatch => {
+    dispatch(actionCreator(SET_LOADING, 'missingContributions'));
+    const response = await requestJwt(method, url, {}, jwt);
+    console.log(url, response);
+    if (response.data) {
+      dispatch(actionCreator(SET_MISSING, response.data));
+    } else {
+      Toast.show({
+        ...toastDefault,
+        text: 'There might be a problem with your connection',
+        type: 'danger',
+      });
     }
     dispatch(actionCreator(SET_LOADING, ''));
   };

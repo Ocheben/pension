@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {connect} from 'react-redux';
 import {View, Button, Text, Dimensions, StatusBar} from 'react-native';
 import {
   Content,
@@ -8,63 +9,109 @@ import {
   colors,
 } from '../../Components/styledComponents';
 import {Item, Input, Icon, Label} from 'native-base';
-import {PersonIcon, LockIcon} from '../../Components/icons';
+import {
+  PersonIcon,
+  LockIcon,
+  PhoneIcon,
+  AtIcon,
+  LocationIcon,
+  EditIcon,
+} from '../../Components/icons';
 
 const {height, width} = Dimensions.get('window');
 const avatar = require('../../assets/img/avatar.png');
 
 const Profile = props => {
-  const {navigation} = props;
+  const {navigation, userData} = props;
+  const {
+    dashboard: {
+      user: {
+        rsa_account: {firstname, surname, email, phone, rsa_pin},
+      },
+    },
+  } = userData;
   return (
     // <View style={{backgroundColor: 'blue', flex: 1, justifyContent:'center'}}>
     //   <Text>Login</Text>
     //   <Button onPress={() => signIn('user')} title="Login" />
     // </View>
-    <Content>
+    <Content justify="space-between">
       <StatusBar backgroundColor={colors.primary} barStyle="light-content" />
-      <Content flex={0.2} justify="space-evenly">
+      <Content flex={2} width="100%" justify="flex-start">
         <LogoImg
           source={avatar}
-          width={width * 0.2}
-          height={height * 0.2}
+          width={width * 0.3}
+          height={height * 0.3}
           resizeMode="contain"
         />
-        <SText size="22px" weight="700" color="#444444">
-          Joe Jackson
+      </Content>
+      <Content flex={3} justify="flex-start" width="80%">
+        <SText size="30px" weight="700" color="#444444">
+          {`${firstname || ''} ${surname || ''}`}
         </SText>
-      </Content>
-      <Content flex={0.3} width="90%">
-        <Item style={{marginBottom: 15}}>
-          <PersonIcon color={colors.primary} size={30} />
-          <Input
-            floatingLabel
-            placeholder="Email/Phone"
-            value="ocheben@gmail.com"
+        <Content horizontal justify="flex-start" align="center">
+          <LockIcon
+            size="25px"
+            color={colors.primary}
+            style={{marginRight: 10}}
           />
-        </Item>
-        <Item>
-          <PersonIcon color={colors.primary} size={30} />
-          <Input floatingLabel placeholder="Phone" value="08034846400" />
-        </Item>
-      </Content>
-      <Content flex={0.25} justify="space-between">
-        <StyledButton curved bg={colors.primary} width="90%">
-          <SText size="20px" color="#ffffff">
-            Update
+          <SText size="20px" color={colors.dark}>
+            {rsa_pin || ''}
           </SText>
+        </Content>
+        <Content horizontal justify="flex-start" align="center">
+          <AtIcon
+            size="25px"
+            color={colors.primary}
+            style={{marginRight: 10}}
+          />
+          <SText size="20px" color={colors.dark}>
+            {email || ''}
+          </SText>
+        </Content>
+        <Content horizontal justify="flex-start">
+          <PhoneIcon
+            size="25px"
+            color={colors.primary}
+            style={{marginRight: 10}}
+          />
+          <SText size="20px" color={colors.dark}>
+            {phone || ''}
+          </SText>
+        </Content>
+      </Content>
+      <Content flex={2} justify="space-between" width="90%" horizontal>
+        <StyledButton
+          curved
+          bg={colors.primary}
+          width="45%"
+          onPress={() => navigation.navigate('EditProfile')}>
+          <Content horizontal>
+            <EditIcon size="18px" color="#ffffff" style={{marginRight: 5}} />
+            <SText size="13px" color="#ffffff">
+              Edit Profile
+            </SText>
+          </Content>
         </StyledButton>
         <StyledButton
           curved
           bg={colors.primary}
-          width="90%"
+          width="45%"
           onPress={() => navigation.navigate('ChangePassword')}>
-          <SText size="20px" color="#ffffff">
-            Change Password
-          </SText>
+          <Content horizontal>
+            <LockIcon size="18px" color="#ffffff" style={{marginRight: 3}} />
+            <SText size="13px" color="#ffffff">
+              Change Password
+            </SText>
+          </Content>
         </StyledButton>
       </Content>
     </Content>
   );
 };
+const mapStateToProps = state => ({
+  userInfo: state.userInfo,
+  userData: state.userData,
+});
 
-export default Profile;
+export default connect(mapStateToProps)(Profile);
