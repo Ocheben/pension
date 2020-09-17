@@ -146,7 +146,8 @@ const HomeStack = createStackNavigator({
           </TouchableOpacity>
           <LogoImg
             source={logo}
-            width={width * 0.35}
+            width={width * 0.6}
+            // height={height * 0.09}
             resizeMode="contain"
             style={{alignSelf: 'center'}}
           />

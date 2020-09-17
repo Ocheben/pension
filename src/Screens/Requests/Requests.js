@@ -104,7 +104,7 @@ const Requests = props => {
                 <Picker.Item label="Select Preferred Response" value={null} />
                 <Picker.Item label="SMS" value="sms" />
                 <Picker.Item label="Email" value="email" />
-                <Picker.Item label="Phone" value="phone" />
+                {/* <Picker.Item label="Phone" value="phone" /> */}
               </Picker>
             </Item>
           </Content>

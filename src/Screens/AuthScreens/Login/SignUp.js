@@ -73,7 +73,12 @@ const SignUp = props => {
       }}>
       <StatusBar backgroundColor={colors.dark} barStyle="light-content" />
       <Content flex={0.3} justify="space-evenly">
-        <LogoImg source={logo} width={width * 0.4} resizeMode="contain" />
+        <LogoImg
+          source={logo}
+          width={width * 0.6}
+          height={height * 0.14}
+          resizeMode="contain"
+        />
         {/* <LostCoinIcon size={width * 0.2} /> */}
         {!sentRsa ? (
           <SText size="18px" color="#777777">

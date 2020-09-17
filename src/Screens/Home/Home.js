@@ -172,7 +172,8 @@ const Home = props => {
             curved
             onPress={() =>
               navigation.navigate('Fund', {
-                url: 'https://premiumpension.com/view-history/?id=13',
+                url:
+                  'http://www.npfpensions.com.ng/investment-philosophy/fund-management/',
               })
             }
             width="45%">
@@ -186,7 +187,8 @@ const Home = props => {
             curved
             onPress={() =>
               navigation.navigate('Fund', {
-                url: 'https://premiumpension.com/view-history/?id=13',
+                url:
+                  'http://www.npfpensions.com.ng/investment-philosophy/fund-management/',
               })
             }
             width="45%">
@@ -202,7 +204,8 @@ const Home = props => {
             curved
             onPress={() =>
               navigation.navigate('Fund', {
-                url: 'https://premiumpension.com/view-history/?id=14',
+                url:
+                  'http://www.npfpensions.com.ng/investment-philosophy/fund-management/',
               })
             }
             width="45%">
@@ -216,7 +219,8 @@ const Home = props => {
             curved
             onPress={() =>
               navigation.navigate('Fund', {
-                url: 'https://premiumpension.com/view-history/?id=2',
+                url:
+                  'http://www.npfpensions.com.ng/investment-philosophy/fund-management/',
               })
             }
             width="45%">
